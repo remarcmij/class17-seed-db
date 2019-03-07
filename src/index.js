@@ -30,7 +30,7 @@ function makeHouseObject() {
     location_coordinates_lng: faker.address.longitude(),
     description: faker.lorem.sentence(),
     title: faker.lorem.sentence(),
-    images: [faker.image.imageUrl(), faker.image.imageUrl()].join('|'),
+    images: [faker.image.imageUrl(), faker.image.imageUrl()].join(','),
     sold: faker.random.boolean() ? 1 : 0,
   };
 }
