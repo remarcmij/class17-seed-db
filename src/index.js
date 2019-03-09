@@ -5,13 +5,14 @@ const faker = require('faker');
 
 const INSERT_COUNT = 100;
 
-const pool = mysql.createPool({
-  connectionLimit: 10,
+const connection = mysql.createConnection({
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
 });
+
+const queryPromise = util.promisify(connection.query.bind(connection));
 
 function makeHouseObject() {
   return {
@@ -35,10 +36,6 @@ function makeHouseObject() {
 
 async function main() {
   try {
-    const getConnection = util.promisify(pool.getConnection.bind(pool));
-    const connection = await getConnection();
-    const queryPromise = util.promisify(connection.query.bind(connection));
-
     const promises = [...new Array(INSERT_COUNT)]
       .map(_ => makeHouseObject())
       .map(house => queryPromise('REPLACE INTO houses SET ?', house));
