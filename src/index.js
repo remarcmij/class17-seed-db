@@ -13,8 +13,6 @@ const pool = mysql.createPool({
   database: process.env.DB_NAME,
 });
 
-const queryPromise = util.promisify(pool.query.bind(pool));
-
 function makeHouseObject() {
   return {
     link: faker.internet.url(),
@@ -37,10 +35,15 @@ function makeHouseObject() {
 
 async function main() {
   try {
+    const getConnection = util.promisify(pool.getConnection.bind(pool));
+    const connection = await getConnection();
+    const queryPromise = util.promisify(connection.query.bind(connection));
+
     const promises = [...new Array(INSERT_COUNT)]
       .map(_ => makeHouseObject())
       .map(house => queryPromise('REPLACE INTO houses SET ?', house));
     await Promise.all(promises);
+
     console.log(`${INSERT_COUNT} houses inserted`);
   } catch (err) {
     console.error(err.message);
