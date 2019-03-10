@@ -3,7 +3,7 @@ const util = require('util');
 const mysql = require('mysql');
 const faker = require('faker');
 
-const INSERT_COUNT = 100;
+const INSERT_COUNT = 1000;
 
 const connection = mysql.createConnection({
   host: process.env.DB_HOST,

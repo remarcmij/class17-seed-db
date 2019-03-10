@@ -18,4 +18,4 @@ To use:
    npm start
    ```
 
-By default, 100 rows are added to the database. Change `INSERT_COUNT` in `/src/index.js` if a different number is desired.
+By default, 1000 rows are added to the database. Change `INSERT_COUNT` in `/src/index.js` if a different number is desired.
